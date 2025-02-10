@@ -1,4 +1,4 @@
-# LibSys
+# SmartClass
 
 ## Table of Contents
 
