@@ -16,7 +16,7 @@ This Project is a part of my college project. The main aim of this project is to
   - Django: I used Django Rest Framework (DRF) to create the API.
 
 - **SQLite**:
-   - Database used to store data.
+   - Simple database used to store data.
 
 - **Swagger**:
    - Used to document the API.
