@@ -64,6 +64,9 @@ class LoginView(generics.GenericAPIView):
 class LogoutView(generics.GenericAPIView):
     authentication_classes = [JWTAuthentication]
 
+    def get_serializer_class(self):
+        return None
+
     def post(self, request):
         try:
             refresh_token = request.data["refresh"]
