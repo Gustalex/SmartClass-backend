@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from datetime import timedelta
 from pathlib import Path
+from decouple import config
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -151,3 +152,12 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Root manager user credentials
+
+ROOT_NAME = config('ROOT_NAME')
+ROOT_CPF = config('ROOT_CPF')
+ROOT_EMAIL = config('ROOT_EMAIL')
+ROOT_PASSWORD = config('ROOT_PASSWORD')
+ROOT_ROLE = config('ROOT_ROLE')
