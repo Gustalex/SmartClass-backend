@@ -7,7 +7,7 @@ User = get_user_model()
 
 receiver(post_migrate)
 def create_root_user(sender, **kwargs):
-    if sender.name == 'auth':
+    if sender.name == 'auth_service':
         user_name = settings.ROOT_NAME
         cpf = settings.ROOT_CPF
         email = settings.ROOT_EMAIL

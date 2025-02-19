@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'rest_framework_simplejwt', 
     'rest_framework_simplejwt.token_blacklist',
-    'auth',
+    'auth_service',
 ]
 
 MIDDLEWARE = [
@@ -120,7 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'auth.User'
+AUTH_USER_MODEL = 'auth_service.User'
 
 PASSWORD_HASHERS = ['django.contrib.auth.hashers.Argon2PasswordHasher']
 

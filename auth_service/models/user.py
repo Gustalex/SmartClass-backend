@@ -22,7 +22,7 @@ class UserManager(BaseUserManager):
 class User(AbstractUser):
     cpf = models.CharField(max_length=11, unique=True)
     email = models.EmailField(max_length=255, unique=True)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, blank=False, unique=True)
     is_student = models.BooleanField(default=False)
     is_teacher = models.BooleanField(default=False)
     is_manager = models.BooleanField(default=False)
@@ -30,7 +30,7 @@ class User(AbstractUser):
     updated_at = models.DateTimeField(auto_now=True)
 
     USERNAME_FIELD = 'name'
-    REQUIRED_FIELDS = ['email','name','cpf']
+    REQUIRED_FIELDS = ['email','cpf']
 
     objects = UserManager()
 
