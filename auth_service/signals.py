@@ -5,7 +5,7 @@ from django.dispatch import receiver
 
 User = get_user_model()
 
-receiver(post_migrate)
+@receiver(post_migrate)
 def create_root_user(sender, **kwargs):
     if sender.name == 'auth_service':
         user_name = settings.ROOT_NAME
@@ -16,4 +16,5 @@ def create_root_user(sender, **kwargs):
     
         if not User.objects.filter(cpf=cpf).exists():
             User.objects.create_user_entity(role, cpf, email, password, name=user_name)
+            print(f'Root user created: {user_name} - {cpf} - {email} - {role}')
         
