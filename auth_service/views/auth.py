@@ -13,30 +13,6 @@ class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-    def perform_create(self, serializer):
-        try:
-            role = self.request.data.get('role')
-            if role not in ['student', 'teacher', 'manager']:
-                raise ValidationError({'role': 'Invalid role. Must be one of: student, teacher, manager'})
-
-            user = serializer.save(role=role)
-            response_data = {
-                'user': {
-                    'id': user.id,
-                    'name': user.name,
-                    'email': user.email,
-                    'role': role,
-                }
-            }
-            return Response(response_data, status=status.HTTP_201_CREATED)
-        except KeyError:
-            return Response({'error': 'Role is required'}, status=status.HTTP_400_BAD_REQUEST)
-        except ValidationError as e:
-            return Response({'error': e.detail}, status=status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
-            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
-
 class LoginView(generics.GenericAPIView):
     serializer_class = LoginSerializer
 

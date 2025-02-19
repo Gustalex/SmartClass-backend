@@ -41,19 +41,22 @@ class UserViewSet(ViewSet):
     
     @action(detail=False, methods=['get'])
     @teacher_required
-    def list_students(self, request):
-        students = User.objects.filter(is_student=True)
-        serializer = UserSerializer(students, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    
+    def list_users(self, request):
+        try:
+            users = User.objects.all()
+            serializer = UserSerializer(users, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
     @action(detail=True, methods=['get'])
     @teacher_required
-    def retrieve_student(self, request, pk=None):
+    def retrieve_user(self, request, pk=None):
         try:
-            student = User.objects.get(pk=pk, is_student=True)
-            serializer = UserSerializer(student)
+            user = User.objects.get(pk=pk)
+            serializer = UserSerializer(user)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except User.DoesNotExist:
-            return Response({'error': 'Student not found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)

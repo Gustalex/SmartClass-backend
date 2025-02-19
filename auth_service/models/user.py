@@ -3,19 +3,25 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 
 class UserManager(BaseUserManager):
     def create_user_entity(self, role, cpf, email, password=None, **extra_fields):
+        print(f"Creating user with role={role}, cpf={cpf}, email={email}, name={extra_fields.get('name')}")
+        
         if not cpf:
             raise ValueError('The CPF must be set')
         if not email:
             raise ValueError('The email must be set')
+        
         email = self.normalize_email(email)
+        extra_fields.setdefault('username', cpf)
         user = self.model(cpf=cpf, email=email, **extra_fields)
         user.set_password(password)
+
         if role == 'student':
-            extra_fields.setdefault('is_student', True)
+            user.is_student = True
         elif role == 'teacher':
-            extra_fields.setdefault('is_teacher', True)
+            user.is_teacher = True
         elif role == 'manager':
-            extra_fields.setdefault('is_manager', True)
+            user.is_manager = True
+
         user.save(using=self._db)
         return user
 
@@ -29,8 +35,9 @@ class User(AbstractUser):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    USERNAME_FIELD = 'name'
-    REQUIRED_FIELDS = ['email','cpf']
+    USERNAME_FIELD = 'cpf'
+    
+    REQUIRED_FIELDS = ['email', 'name']
 
     objects = UserManager()
 
