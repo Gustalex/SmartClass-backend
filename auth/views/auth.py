@@ -5,7 +5,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from ..serializers import UserSerializer, LoginSerializer
 from django.contrib.auth import get_user_model
 from rest_framework.exceptions import ValidationError, AuthenticationFailed
-from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 User = get_user_model()
 
@@ -62,7 +62,7 @@ class LoginView(generics.GenericAPIView):
        
 
 class LogoutView(generics.GenericAPIView):
-    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
 
     def post(self, request):
         try:

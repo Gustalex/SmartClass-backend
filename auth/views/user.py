@@ -5,11 +5,13 @@ from rest_framework import status
 from ..decorators import teacher_required, manager_required, role_required
 from ..serializers import UserSerializer
 from django.contrib.auth import get_user_model
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 User = get_user_model()
 
 class UserViewSet(ViewSet):
     serializer_class = UserSerializer
+    authentication_classes = [JWTAuthentication]
 
     @action(detail = True, methods = ['delete'])
     @manager_required
