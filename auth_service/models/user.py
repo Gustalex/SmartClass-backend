@@ -3,8 +3,6 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 
 class UserManager(BaseUserManager):
     def create_user_entity(self, role, cpf, email, password=None, **extra_fields):
-        print(f"Creating user with role={role}, cpf={cpf}, email={email}, name={extra_fields.get('name')}")
-        
         if not cpf:
             raise ValueError('The CPF must be set')
         if not email:
