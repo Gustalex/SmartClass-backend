@@ -4,6 +4,7 @@ from .factory_model import FactoryModel
 class Aula(FactoryModel):
     titulo = models.CharField(max_length=255)
     descricao = models.TextField()
+    conteudo = models.TextField(blank=True, null=True, default=None)
     materia = models.ForeignKey('Materia', on_delete=models.CASCADE)   
     atividades = models.ManyToManyField('Atividade', related_name='aulas_atividade')   
 
