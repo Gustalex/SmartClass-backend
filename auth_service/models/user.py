@@ -58,11 +58,12 @@ class User(AbstractUser):
         """
         super().clean()
 
-        if self.is_student and self.cursos.exists():
-            raise ValidationError("Alunos não podem estar associados a múltiplos cursos. Use o campo 'curso'.")
+        if self.pk is not None:
+            if self.is_student and self.cursos.exists():
+                raise ValidationError("Alunos não podem estar associados a múltiplos cursos. Use o campo 'curso'.")
 
-        if self.is_teacher and self.curso:
-            raise ValidationError("Professores não podem estar associados a um único curso. Use o campo 'cursos'.")
+            if self.is_teacher and self.curso:
+                raise ValidationError("Professores não podem estar associados a um único curso. Use o campo 'cursos'.")
 
     def save(self, *args, **kwargs):
         self.clean() 
