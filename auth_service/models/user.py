@@ -14,7 +14,9 @@ class UserManager(BaseUserManager):
         user = self.model(cpf=cpf, email=email, **extra_fields)
         user.set_password(password)
 
-        if role == 'student':
+        if role == None:
+            user.is_student = True
+        elif role == 'student':
             user.is_student = True
         elif role == 'teacher':
             user.is_teacher = True
