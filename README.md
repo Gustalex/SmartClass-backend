@@ -67,6 +67,10 @@ Clone the `SmartClass-backend` project repository to your local machine:
   ```bash
   python manage.py migrate
   ```
+  And
+    ```bash
+    python manage.py seed
+    ```
 
    Run the Django development server using the `manage.py` script:
    ```bash
