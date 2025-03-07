@@ -3,6 +3,7 @@ argon2-cffi-bindings==21.2.0
 asgiref==3.8.1
 cffi==1.17.1
 Django==5.1.6
+django-cors-headers==4.7.0
 djangorestframework==3.15.2
 djangorestframework_simplejwt==5.4.0
 drf-yasg==1.21.8
