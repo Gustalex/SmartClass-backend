@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.core.exceptions import ValidationError
 
 class UserManager(BaseUserManager):
-    def create_user_entity(self, role, cpf, email, password=None, **extra_fields):
+    def create_user_entity(self, role, cpf, email, password=None, curso=None, cursos=None, **extra_fields):
         if not cpf:
             raise ValueError('The CPF must be set')
         if not email:
@@ -23,7 +23,14 @@ class UserManager(BaseUserManager):
         elif role == 'manager':
             user.is_manager = True
 
-        user.save(using=self._db)
+        user.save(using=self._db) 
+
+        if (role == 'student' or role == None) and curso:
+            user.curso = curso
+            user.save() 
+        if role == 'teacher' and cursos:
+            user.cursos.set(cursos) 
+
         return user
 
 class User(AbstractUser):

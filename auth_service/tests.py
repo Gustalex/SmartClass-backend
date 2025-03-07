@@ -3,6 +3,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 from django.contrib.auth import get_user_model
+from lms.models import Curso
 
 User = get_user_model()
 
@@ -65,6 +66,8 @@ class UserTestCase(TestCase):
         self.update_user_url = reverse('update_user', args=[2])
         self.delete_user_url = reverse('delete_user', args=[2])
         
+        self.curso = Curso.objects.create(nome='Curso Teste')
+        
         self.user = User.objects.create_user_entity(
             name='testuser',
             cpf='00000000002',
@@ -78,7 +81,7 @@ class UserTestCase(TestCase):
     def test_list_users(self):
         response = self.client.get(self.list_users_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 2)
+        self.assertEqual(len(response.data), 2)  
 
     def test_retrieve_user(self):
         response = self.client.get(self.retrieve_user_url)
@@ -87,13 +90,25 @@ class UserTestCase(TestCase):
 
     def test_update_user(self):
         update_data = {
-            'name': 'Updated Name'
+            'name': 'Updated Name', 
+            'email': 'updated@example.com',
+            'role': 'student',
+            'curso': self.curso.id  
         }
-        response = self.client.patch(self.update_user_url, update_data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.user.refresh_from_db()
-        self.assertEqual(self.user.name, 'Updated Name')
 
+        response = self.client.patch(self.update_user_url, update_data, format='json')
+        
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+        self.user.refresh_from_db()
+        
+        self.assertEqual(self.user.name, 'Updated Name')
+        self.assertEqual(self.user.email, 'updated@example.com')
+        self.assertEqual(self.user.is_student, True)
+        self.assertEqual(self.user.is_teacher, False)
+        self.assertEqual(self.user.is_manager, False)
+        self.assertEqual(self.user.curso_id, self.curso.id) 
+        
     def test_delete_user(self):
         response = self.client.delete(self.delete_user_url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)

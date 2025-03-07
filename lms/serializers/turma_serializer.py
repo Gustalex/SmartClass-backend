@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ...auth_service.serializers import UserSerializer
+from auth_service.serializers import UserSerializer
 from ..models import Turma
 from ..serializers import CursoSerializer, MateriaSerializer
 
