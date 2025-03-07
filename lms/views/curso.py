@@ -35,7 +35,7 @@ class CursoViewSet(ViewSet):
     serializer_class = CursoSerializer
     authentication_classes = [JWTAuthentication]
 
-    @action(detail=True, methods=['delete'])
+    @action(detail= False, methods=['post'])
     @manager_required
     def create_curso(self, request):
         try:
