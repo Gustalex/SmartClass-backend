@@ -37,32 +37,16 @@
       "nome": "Curso de Física"
     }
   ],
-  "materias": [
-    {
-      "nome": "Álgebra Linear",
-      "carga_horaria": 60,
-      "curso": 1,
-      "professor": 5 
-    },
-    {
-      "nome": "Cálculo Diferencial",
-      "carga_horaria": 80,
-      "curso": 1,
-      "professor": 5 
-    }
-  ],
   "aulas": [
     {
       "titulo": "Introdução à Álgebra Linear",
       "descricao": "Conceitos básicos de álgebra linear.",
-      "conteudo": "Conteúdo da aula...",
-      "materia": 1
+      "conteudo": "Conteúdo da aula..."
     },
     {
       "titulo": "Introdução ao Cálculo Diferencial",
       "descricao": "Conceitos básicos de cálculo diferencial.",
-      "conteudo": "Conteúdo da aula...",
-      "materia": 2
+      "conteudo": "Conteúdo da aula..."
     }
   ],
   "atividades": [
@@ -83,16 +67,16 @@
   ],
   "turmas": [
     {
-      "nome": "Turma de Álgebra Linear",
+      "nome": "Turma de Álgebra Linear 2024.2",
       "curso": 1,
-      "materia": 1,
+      "materia": "Algebra Linear",
       "professor": 5, 
       "alunos": [2, 3, 4]  
     },
     {
-      "nome": "Turma de Cálculo Diferencial",
+      "nome": "Turma de Cálculo Diferencial 2024.2",
       "curso": 1,
-      "materia": 2,
+      "materia": "Calculo Diferencial",
       "professor": 5, 
       "alunos": [2, 3, 4]  
     }

@@ -3,7 +3,6 @@ from .factory_model import FactoryModel
 
 class Curso(FactoryModel):
     nome = models.CharField(max_length=255)
-    materias = models.ManyToManyField('Materia', related_name='cursos')
     
     
     def __str__(self):

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CursoViewSet, CursoLisRetrievetViewSet, AtividadeViewSet
+from .views import CursoViewSet, CursoLisRetrievetViewSet, AtividadeViewSet, TurmaViewSet
 
 urlpatterns = [
     # Curso
@@ -14,4 +14,10 @@ urlpatterns = [
     path('create-atividade/', AtividadeViewSet.as_view({'post':'create_atividade'}), name='create_atividade'),
     path('atividades/<int:pk>/update/', AtividadeViewSet.as_view({'patch':'update_atividade'}), name='update_atividade'),
     path('atividades/<int:pk>/delete/', AtividadeViewSet.as_view({'delete':'delete_atividade'}), name='delete_atividade'),
+    # Turma
+    path('list-turmas/', TurmaViewSet.as_view({'get':'list_turmas'}), name='list_turmas'),
+    path('turmas/<int:pk>/', TurmaViewSet.as_view({'get':'retrieve_turma'}), name='turma'),
+    path('create-turma/', TurmaViewSet.as_view({'post':'create_turma'}), name='create_turma'),
+    path('turmas/<int:pk>/update/', TurmaViewSet.as_view({'patch':'update_turma'}), name='update_turma'),
+    path('turmas/<int:pk>/delete/', TurmaViewSet.as_view({'delete':'delete_turma'}), name='delete_turma'),  
 ]

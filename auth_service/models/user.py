@@ -39,7 +39,6 @@ class User(AbstractUser):
     name = models.CharField(max_length=255, blank=False, unique=True)
     curso = models.ForeignKey('lms.Curso', on_delete=models.SET_NULL, related_name='alunos_curso', null=True, blank=True)
     cursos = models.ManyToManyField('lms.Curso', related_name='professores_curso', blank=True) # professores podem estar em vários cursos
-    materias = models.ManyToManyField('lms.Materia', related_name='users_materia', blank=True)
     is_student = models.BooleanField(default=False)
     is_teacher = models.BooleanField(default=False)
     is_manager = models.BooleanField(default=False)
@@ -77,12 +76,6 @@ class User(AbstractUser):
     def save(self, *args, **kwargs):
         self.clean() 
         super().save(*args, **kwargs)
-
-    def get_materia_students(self):
-        return self.materias.filter(users_materia__id=self.id, users_materia__is_student=True).distinct()
-
-    def get_materia_teacher(self):
-        return self.materias.filter(users_materia__id=self.id, users_materia__is_teacher=True).distinct()
 
     def get_cursos_teacher(self):
         if self.is_teacher:
