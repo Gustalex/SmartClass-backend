@@ -51,3 +51,15 @@ class LogoutView(generics.GenericAPIView):
             return Response("Logout com sucesso.", status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"detail" : str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class RefreshView(generics.GenericAPIView):
+    def post(self, request):
+        try:
+            refresh_token = request.data["refresh"]
+            token = RefreshToken(refresh_token)
+            return Response({
+                'access': str(token.access_token),
+            }, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"detail" : str(e)}, status=status.HTTP_400_BAD_REQUEST)
