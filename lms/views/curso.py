@@ -8,6 +8,7 @@ from ..serializers import CursoSerializer
 from ..models import Curso
 
 class CursoLisRetrievetViewSet(ViewSet):
+    authentication_classes = [JWTAuthentication]
     serializer_class = CursoSerializer
 
     @action(detail=False, methods=['get'])

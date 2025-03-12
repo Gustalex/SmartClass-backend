@@ -8,8 +8,8 @@ from ..serializers import TurmaSerializer
 from auth_service.decorators import teacher_required, role_required
 
 class TurmaViewSet(ViewSet):
-    serializer_class = TurmaSerializer
     authentication_classes = [JWTAuthentication]
+    serializer_class = TurmaSerializer
 
     @action(detail=False, methods=['post'])
     @teacher_required

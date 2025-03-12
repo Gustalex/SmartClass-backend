@@ -8,8 +8,8 @@ from ..serializers import AtividadeSerializer
 from auth_service.decorators import teacher_required, role_required
 
 class AtividadeViewSet(ViewSet):
-    serializer_class = AtividadeSerializer
     authentication_classes = [JWTAuthentication]
+    serializer_class = AtividadeSerializer
 
     @action(detail=False, methods=['get'])
     @role_required
@@ -41,7 +41,12 @@ class AtividadeViewSet(ViewSet):
         try:
             serializer = AtividadeSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
-            serializer.save()
+            atividade = serializer.save()
+
+            aula = atividade.aula
+            aula.atividades.add(atividade)
+            aula.save()
+
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         except Exception as e:
             return Response({'error': f'Erro ao criar atividade: {str(e)}'}, status=status.HTTP_400_BAD_REQUEST)
@@ -54,7 +59,12 @@ class AtividadeViewSet(ViewSet):
             atividade = Atividade.objects.get(pk=pk)
             serializer = AtividadeSerializer(atividade, data=request.data, partial=True)
             serializer.is_valid(raise_exception=True)
-            serializer.save()
+            atividade=serializer.save()
+
+            aula = atividade.aula
+            aula.atividades.add(atividade)
+            aula.save()
+
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Atividade.DoesNotExist:
             return Response({'error': 'Atividade não encontrada.'}, status=status.HTTP_404_NOT_FOUND)
@@ -68,6 +78,10 @@ class AtividadeViewSet(ViewSet):
         try:
             atividade = Atividade.objects.get(pk=pk)
             atividade.delete()
+
+            atividade.aula.atividades.remove(atividade)
+            atividade.aula.save()
+
             return Response(status=status.HTTP_204_NO_CONTENT)
         except Atividade.DoesNotExist:
             return Response({'error': 'Atividade não encontrada.'}, status=status.HTTP_404_NOT_FOUND)
