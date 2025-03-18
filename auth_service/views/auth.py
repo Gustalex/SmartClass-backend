@@ -10,8 +10,32 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 User = get_user_model()
 
 class RegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()
     serializer_class = UserSerializer
+
+    def post(self,request, *args, **kwargs):
+        try:
+            user_data = request.data
+            is_cpf_valid = User.objects.filter(cpf=user_data['cpf']).exists()
+            is_email_valid = User.objects.filter(email=user_data['email']).exists()
+            if is_cpf_valid:
+                return Response({'error': 'CPF already exists'}, status=status.HTTP_409_CONFLICT)
+            if is_email_valid:
+                return Response({'error': 'Email already exists'}, status=status.HTTP_409_CONFLICT)
+            serializer = self.get_serializer(data=user_data)
+            serializer.is_valid(raise_exception=True)
+            user = serializer.save()
+            refresh = RefreshToken.for_user(user)
+            return Response({
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+            }, status=status.HTTP_201_CREATED)
+        except KeyError as e:
+            return Response({'error': f'Missing required field: {str(e)}'}, status=status.HTTP_400_BAD_REQUEST)
+        except ValidationError as e:
+            return Response({'error': e.detail}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({'error': 'An unexpected error occurred'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
 
 class LoginView(generics.GenericAPIView):
     serializer_class = LoginSerializer
